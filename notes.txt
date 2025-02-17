@@ -1,0 +1,45 @@
+User Management API 
+
+
+Server, along with API, and DB operations
+
+The database that we will be using is mongoDB and the database
+aggregator would be mongodb atlas 
+
+
+
+createAccount  -> data
+login           -> data
+route           -> data
+
+in order to control what kind of data do we require and hence 
+what kind of data is ALLOWED on our Server
+hack, crash, conflict 
+
+email -> Vishoo Verma
+name -> vishooverma@gmail.com 
+
+
+createAccount -> Name, email, password, phone number etc 
+login -> email, password 
+
+Data Validation -> mongoose -> data object modelling tool, validate Data
+it is used to connect our server to our database
+
+
+
+
+
+MVC Architecture -> Scalablity 
+project structure architecture 
+implement CODE ON DEMAND feature 
+rendering lesser lines of code saves processing power of our server
+
+
+
+
+Client 
+                    API 
+React!          <------> Server 
+                         always 
+                         live

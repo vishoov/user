@@ -1,5 +1,23 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+app.use(express.json()); //middleware
+const userRoutes = require("./routes/user.routes");
+
+const User = require("./models/user.model");
+
+
+const dburi= "mongodb+srv://vverma971:pbFNIhhDLHtQXGAD@cluster0.qgmus.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+//Database Connection
+mongoose.connect(dburi)
+.then(()=>{
+    console.log("Connected to Database!");
+})
+.catch((err)=>{
+    console.log("Error: ", err);
+});
+
 
 
 //RESTful API - Representational State Transfer
@@ -21,46 +39,14 @@ const app = express();
 //user management api
 
 //Home page
+app.get("/", (req, res)=>{
+    const data = req.body;
+    res.send("<h1>Welcome to User Management Server</h1><br><p>This server is meant for managing basic user management features like creating, updating, authenticating the users!</p>");
+
+})
 
 
-//Create Account + Authentication
-
-
-
-//Login + Authentication
-
-
-
-
-
-//Profile
-
-
-
-//Posts
-
-
-
-
-//Authentication is the process of verifying the identity of a user.
-
-
-
-//Logout
-
-
-
-
-//Change Password
-
-
-
-
-//Delete Account
-
-
-
-
+app.use("/", userRoutes);
 
 
 app.listen(3000, ()=>{
