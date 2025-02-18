@@ -43,3 +43,153 @@ Client
 React!          <------> Server 
                          always 
                          live
+
+
+Aggregation and Pipelines
+
+querying data 
+
+search -> filters 
+
+User Data -> identify people in a city -> get their age distribution 
+10000s              People in delhi             
+
+Aggregation -> Collecting some information based on some conditions 
+
+Pipelines-> stage1 -> stage2-> stage3-> stage4-> filter 
+
+
+
+
+
+
+
+
+
+
+
+
+Project Description:
+
+ User management api, using nodejs, express, mongodb, mongoose
+ proper error handling 
+ asynchronous enabled 
+ mvc architecture -> model, view, controller
+
+
+
+ security
+ deployment 
+
+
+
+ //  router.get("/avgAgebyGender", async (req, res)=>{
+//     try{
+//         const avgAge = await User.aggregate([
+//             {
+//                 $group:{
+//                     _id:"$gender",
+//                     averageAge: {$avg :"$age"}
+//                 }
+//             }
+//         ])
+//     }
+//  })
+
+    // //router.get("/aggregate", async(req, res)=>{
+    //     try{
+    //         const aggregation = await User.aggregate([
+    //             {
+
+    //                 $match:{
+    //                     status : "Active"
+                        //conditions for querying-> pincode, gender, age, status
+    //                 }
+    //                },{
+    //                 $group:{
+                    //gathering insights from the data -> basic calculations, grouping, filtering
+    //                     _id: "$gender",  
+    //                     totalUsers: {$sum: 1},
+    //                     avgAge: {$avg: "$age"}
+    //                 },
+    
+    //             },
+    //             {
+    //                 $sort:{
+                    //sorting the data based on a particular field
+                    // we should sort the data based on total number of users
+                    // in descending order
+                    //ascending order -> 1
+                    //descending order -> -1
+
+    //                     totalUsers: -1
+    //                 },
+// },
+    //             {
+    //                 $project:{
+    //                     _id: 0,
+    //                     aciveUsers: "$totalUsers",
+    //                     averageAge: 1
+    //                 },
+    //             }
+// }
+
+    //         ])
+
+    //     }    
+    // })
+
+    // male : 10000
+    // female : 5000
+
+    //     -> M, 10k
+    //         F, 5k
+
+
+ //users-> const sum= age1+age2+age3-> user count -> sum /user count -> avg age
+
+
+
+
+
+API security
+
+Public -> available to everyone
+
+Protected -> who have been authenticated 
+
+
+
+token based authentication 
+
+signup  -> token -> protected routes 
+login 
+
+
+
+1) username & password
+2) token based authentication 
+
+    
+
+authentication 
+
+repetitive login signup 
+
+login -> token 
+
+token-> request  -> cookies 
+
+
+session -> sessionID was stored on server 
+
+token 
+
+
+username/email -> payload -> hacked
+header-> algorithm, type, encoding  -> hacked
+signature/jwt secret -> verifying secret key -> prevents hacking 
+
+
+hacker -> vishoo's account  
+            vishoov 

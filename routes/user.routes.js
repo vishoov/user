@@ -2,33 +2,58 @@
 const express= require("express");
 const router = express.Router();
 const User = require("../models/user.model");
-
+const generateToken = require("../auth/jwt.auth");
+const { JsonWebTokenError } = require("jsonwebtoken");
 //Create Account + Authentication
-router.post("/createAccount", async (req, res)=>{
-   
-    try{
-     const user = await User.create(req.body);
-     console.log(user);
-     res.status(201).send("User Created Successfully!");
+const jwt = require("jsonwebtoken");
+const auth = require("../auth/jwt.auth");
+
+
+
+router.post("/createAccount", async (req, res) => {
+    try {
+        const user = await User.create(req.body);
+
+        const token = auth.generateToken(user.username);
+        if(!token){
+            return res.status(400).send("Token not generated");
+        }
+        res.status(201).json({ user, token, message: "User Created Successfully!" });
+        
+    } catch (err) {
+        res.status(400).json({ error: err.message });
     }
-    catch(err){
-         res.status(400).send(err.message);
-    }
- });
+});
+
+
+
  
  //signup page
  //Name, Email, Password, Confirm Password, Phone Number, Address
  
- 
+router.get("/users", auth.auth,async (req, res)=>{
+    try{
+        const users = await User.find();
+        res.status(200).send(users);
+    }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+});
+
+
  //Login + Authentication
- router.post("/login", async (req, res)=>{
+ router.post("/login",  async (req, res)=>{
      
  
      try{
  
          //extract the information that would be used to authenticate the user
      const { username, password } = req.body;
- 
+     const token = auth.generateToken(user.username);
+     if(!token){
+         return res.status(400).send("Token not generated");
+     }
      //mongoose has CRUD operations defined as methods of the User object 
      //findOne -> finds the first document that matches the query
      const user = await User.findOne({username});
@@ -120,5 +145,83 @@ router.post("/createAccount", async (req, res)=>{
      }
  });
  
+
+ router.get("/avgAge", async (req, res)=>{
+    try{
+        const avgAge = await User.aggregate([
+            {
+                $group:{
+                    _id: null,
+                    averageAge: { $avg: "$age"}
+                }
+            },
+            {
+                $project:{
+                    _id:0,
+                    averageAge:1
+                }
+            }
+        ])
+        res.status(200).send(avgAge);
+    }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+ })
+
+ //users-> count
+ //admins -> count
+ //superadmins -> count
+
+
+ //this aggregation applies on our 
+ router.get("/countUsers", async (req, res)=>{
+    try{
+        const countUsers = await User.aggregate([
+            {
+                $group:{
+                    _id:"$role",
+                    count:{
+                        $sum:1
+                    }
+                }
+            },
+            {
+                $sort:{
+                    count:-1
+                }
+            },
+            {
+                $limit:3
+            },
+            {
+                $project:{
+                    _id:0,
+                    role:"$_id",
+                    count:1
+            }
+        }
+
+        ])
+        res.status(200).send(countUsers);
+    }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+    
+ })
+
+
+
+    //there is no specific key 
+    //average age 
+
+//sort ->1 , -1 
+//group -> for getting average 
+//match -> exact filterint match 
+//limit -> 5 
+//project
+
+
 
 module.exports = router;

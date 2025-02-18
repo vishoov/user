@@ -3,12 +3,13 @@ const app = express();
 const mongoose = require("mongoose");
 app.use(express.json()); //middleware
 const userRoutes = require("./routes/user.routes");
-
+const bodyParser = require("body-parser");
+const auth = require("./auth/jwt.auth");
 const User = require("./models/user.model");
 
 
 const dburi= "mongodb+srv://vverma971:pbFNIhhDLHtQXGAD@cluster0.qgmus.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
+const localdb= "mongodb://localhost:27017/users"
 //Database Connection
 mongoose.connect(dburi)
 .then(()=>{
@@ -32,7 +33,7 @@ mongoose.connect(dburi)
 //Highly Reliable -> Error Handling
 //Highly Secure -> Authentication and Authorization
 
-
+app.use(bodyParser.json());
 
 
 
@@ -44,6 +45,8 @@ app.get("/", (req, res)=>{
     res.send("<h1>Welcome to User Management Server</h1><br><p>This server is meant for managing basic user management features like creating, updating, authenticating the users!</p>");
 
 })
+
+
 
 
 app.use("/", userRoutes);
