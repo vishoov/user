@@ -55,7 +55,7 @@ router.get("/users", async (req, res)=>{
      const user = await User.findOne({username});
      console.log(user);
 
-     const token = auth.generateToken(user.username);
+    const token = auth.generateToken(username);
     //  if(!token){
     //      return res.status(400).send("Token not generated");
     //  }
@@ -76,7 +76,7 @@ router.get("/users", async (req, res)=>{
  
  
      //if the user is found and the password is correct we will send a 200 status code
-     res.status(200).send("User Logged in Successfully!");
+     res.status(200).send({user, token});
  
      }catch(err){
          res.status(400).send(err.message);
@@ -108,6 +108,27 @@ router.get("/users", async (req, res)=>{
  });
  
  
+ //admin dashboard->
+ router.post("/adminDashboard", auth.auth, async (req, res)=>{
+    try{
+        const user = await User.findOne({username:req.body.username});
+        if(user.role=="admin"){
+            // res.redirect("/changePassword");
+            res.status(200).send("Welcome to Admin Dashboard!");
+            
+        }
+      
+            res.status(401).send("Unauthorized Access!");
+      
+
+
+
+    }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+ })
+
  
  //Change Password
  router.put("/changePassword", async (req, res)=>{
