@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 //why do we need a schema?
 // 1. allow only validated data on our server
 //2. enforce structure 
@@ -64,6 +64,39 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+//encrypt the password before the user is SAVED IN THE DATABASE
+
+//event -> save -> pre, post 
+//pre -> before the event
+//post -> after the event
+userSchema.pre("save", async function(next){
+    const user = this;
+    //this keyword-> refers to the data that is being saved during that instance 
+    //this -> user object
+    // idg8638teidg8rt378guiebgikrg87r
+    try{
+
+        if(user.isModified("password")){
+            
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(user.password, salt);
+    // hashing refers to adding something to the password to make it unrecognisable 
+        user.password = hashedPassword;
+        next();
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+//compare password function 
+//password -> user entered password
+//this.password -> hashed password
+userSchema.methods.comparePassword = async function(password){
+    const user = this;
+    const isMatch = await bcrypt.compare(password, user.password);
+    return isMatch;
+}
 
 
 const User = mongoose.model("User", userSchema);

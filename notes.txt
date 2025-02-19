@@ -2,6 +2,8 @@ User Management API
 
 
 Server, along with API, and DB operations
+that serves you something 
+
 
 The database that we will be using is mongoDB and the database
 aggregator would be mongodb atlas 
@@ -22,6 +24,8 @@ name -> vishooverma@gmail.com
 
 createAccount -> Name, email, password, phone number etc 
 login -> email, password 
+
+
 
 Data Validation -> mongoose -> data object modelling tool, validate Data
 it is used to connect our server to our database
@@ -75,7 +79,10 @@ Project Description:
  proper error handling 
  asynchronous enabled 
  mvc architecture -> model, view, controller
-
+ implemented best security practices including password authenticated
+ api security using jwt, to protect the routes
+ password encryption to protect the user data
+ 
 
 
  security
@@ -154,6 +161,9 @@ Project Description:
 
 API security
 
+1. username and password 
+
+2. 
 Public -> available to everyone
 
 Protected -> who have been authenticated 
@@ -163,7 +173,7 @@ Protected -> who have been authenticated
 token based authentication 
 
 signup  -> token -> protected routes 
-login 
+or login 
 
 
 
@@ -193,3 +203,36 @@ signature/jwt secret -> verifying secret key -> prevents hacking
 
 hacker -> vishoo's account  
             vishoov 
+
+
+
+
+
+
+
+
+
+chat gpt ->  $100-120 million dollars 
+< 
+deepSeek -> hedge fund trading  -> $6m 
+1.5times 
+
+
+aI 
+
+data ------> algorithm 
+
+data                label ----> algorithm 
+rgb(255, 0, 0)= red
+rgb(254, 0, 0)= red
+rgb(253, 0, 0)= red 
+
+
+
+
+                                    --------------------------
+                                    |            >A            |
+                                    | client            >B     | 
+                                    |                          |
+                                    |                >C        |
+                                    ---------------------------

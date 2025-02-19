@@ -15,9 +15,8 @@ router.post("/createAccount", async (req, res) => {
         const user = await User.create(req.body);
 
         const token = auth.generateToken(user.username);
-        if(!token){
-            return res.status(400).send("Token not generated");
-        }
+
+     
         res.status(201).json({ user, token, message: "User Created Successfully!" });
         
     } catch (err) {
@@ -31,7 +30,7 @@ router.post("/createAccount", async (req, res) => {
  //signup page
  //Name, Email, Password, Confirm Password, Phone Number, Address
  
-router.get("/users", auth.auth,async (req, res)=>{
+router.get("/users", async (req, res)=>{
     try{
         const users = await User.find();
         res.status(200).send(users);
@@ -50,24 +49,30 @@ router.get("/users", auth.auth,async (req, res)=>{
  
          //extract the information that would be used to authenticate the user
      const { username, password } = req.body;
-     const token = auth.generateToken(user.username);
-     if(!token){
-         return res.status(400).send("Token not generated");
-     }
+   
      //mongoose has CRUD operations defined as methods of the User object 
      //findOne -> finds the first document that matches the query
      const user = await User.findOne({username});
      console.log(user);
+
+     const token = auth.generateToken(user.username);
+    //  if(!token){
+    //      return res.status(400).send("Token not generated");
+    //  }
      //if the user is not found we will send a 404 status code
      if(!user){
          return res.status(404).send("User not found!");
      }
  
      //if the password is incorrect we will send a 400 status code
-     if(user.password !== password){
-         return res.status(400).send("Invalid Password!");
-     }
+    //  if(user.password !== password){
+    //      return res.status(400).send("Invalid Password!");
+    //  }
  
+    const isMatch = await user.comparePassword(password);
+    if(!isMatch){
+        return res.status(400).send("Invalid Password!");
+    }
  
  
      //if the user is found and the password is correct we will send a 200 status code
